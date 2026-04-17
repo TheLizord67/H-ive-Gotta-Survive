@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85dfcb13459cd9488c08af141fbd185, type: 3}
+  m_Name: Recipie List
+  m_EditorClassIdentifier: Assembly-CSharp::Recipies
+  recipies:
+  - name: Stone Axe
+    resources:
+    - {fileID: 11400000, guid: 7c8f6def493b27b40a41c70e686ea3ba, type: 2}
+    - {fileID: 11400000, guid: 6b8a7ad371f4e314b800304d47dcbc7d, type: 2}
+    result: {fileID: 11400000, guid: 2e457e114ee81114fb7b86a1d6d7415b, type: 2}

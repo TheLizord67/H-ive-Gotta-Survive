@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a468c4c2971e324fa9b061188f555dd, type: 3}
+  m_Name: Silk
+  m_EditorClassIdentifier: Assembly-CSharp::Resources
+  resource:
+    name: Silk
+    icon: {fileID: 0}
+    description: 'Whole civilizations have killed each other over spider residue. '
+    maxStackSize: 1
+    prefab: {fileID: 0}
