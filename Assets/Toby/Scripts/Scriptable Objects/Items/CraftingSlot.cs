@@ -22,7 +22,7 @@ public class CraftingSlot : MonoBehaviour, IDropHandler
             {
                 if (itemHandled.isItem == true)
                 {
-                    if (itemHandled.itemData = childItem.itemData)
+                    if (itemHandled.itemData == childItem.itemData)
                     {
                         if (childItem.stack == childItem.itemData.item.maxStackSize)
                         {
@@ -34,10 +34,14 @@ public class CraftingSlot : MonoBehaviour, IDropHandler
                             Destroy(itemHandled.gameObject);
                         }
                     }
+                    else
+                    {
+                        return;
+                    }
                 }
-                else
+                else if (itemHandled.isItem == false)
                 {
-                    if (itemHandled.resourceData = childItem.resourceData)
+                    if (itemHandled.resourceData == childItem.resourceData)
                     {
                         if (childItem.stack == childItem.resourceData.resource.maxStackSize)
                         {
@@ -48,6 +52,10 @@ public class CraftingSlot : MonoBehaviour, IDropHandler
                             childItem.stack += 1;
                             Destroy(itemHandled.gameObject);
                         }
+                    }
+                    else
+                    {
+                        return;
                     }
                 }
             }

@@ -55,5 +55,9 @@ public class ItemHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     void Update()
     {
         stackText.text = stack.ToString();
+        if (stack == 0)
+        {
+            stackText.text = "";
+        }
     }
 }
