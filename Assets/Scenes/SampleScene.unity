@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9798cfaff5633bd4197667311bf8b885, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  planeSize: {x: 10, y: 10}
+  planeSize: {x: 30, y: 15}
   planeResolution: 10
 --- !u!64 &1385647958
 MeshCollider:

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
 
 public class PlaneModifier : MonoBehaviour
@@ -48,7 +49,18 @@ public class PlaneModifier : MonoBehaviour
         {
             for (int x = 0; x < resolution + 1; x++)
             {
-                vertices.Add(new Vector3(x * xPerStep, 0, y * yPerStep));
+                if (x == 0 || x == resolution)
+                {
+                    vertices.Add(new Vector3(leftEdge(y) + x * xPerStep, 0, y * yPerStep));
+                }
+                else if (y == 0 || y == resolution)
+                {
+                    vertices.Add(new Vector3(leftEdge(y) + x * xPerStep + Random.Range(-xPerStep / 2, xPerStep / 2), 0, y * yPerStep));
+                }
+                else
+                {
+                    vertices.Add(new Vector3(leftEdge(y) + x * xPerStep + Random.Range(-xPerStep / 2, xPerStep / 2), 0, y * yPerStep + Random.Range(-yPerStep / 2, yPerStep / 2)));
+                }
             }
         }
 
@@ -86,10 +98,21 @@ public class PlaneModifier : MonoBehaviour
         for (int i = 0; i < vertices.Count; i++)
         {
             Vector3 vertex = vertices[i];
-            vertex.y = Random.Range(-2.5f, 2.5f);
+            vertex.y = Random.Range(-10f, 10f);
             vertices[i] = vertex;
         }
     }
-    
+
+    float leftEdge(float yValue)
+    {
+        float xValue = yValue * (-Mathf.Sqrt(3) / 2);
+        return xValue;
+    }
+    float rightEdge(float yValue, Vector2 size)
+    {
+        float xValue = yValue * (-Mathf.Sqrt(3) / 2) + size.x;
+        return xValue;
+    }
+
 
 }
