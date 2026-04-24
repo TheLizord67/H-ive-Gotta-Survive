@@ -10,5 +10,9 @@ public partial class Recipies
         public List<_Resources> resources;
 
         public Item result;
+
+        public int itemsNeeded;
+
+        public int itemsHeld;
     }
 }

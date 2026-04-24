@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Resources
   resource:
     name: Rocks
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 8d2a8178614ba3d4a831cf2b1369ee84, type: 3}
     description: With some sticks and stones I'm sure you can break some bones.
     maxStackSize: 5
     prefab: {fileID: 0}

@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour
     public InventoryData inventoryData;
 
     public List<InventoryData> allStoredInventoryData;
-  
+ 
     public void LoadAllFromResources()
     {
         InventoryData[] loadedAssets = Resources.LoadAll<InventoryData>("Inventory");

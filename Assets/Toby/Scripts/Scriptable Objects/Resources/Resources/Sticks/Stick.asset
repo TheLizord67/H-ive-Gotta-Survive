@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Resources
   resource:
     name: Stick
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: f1a59defa7ba52649805267ec603c1ce, type: 3}
     description: A very sticky situation indeed.
     maxStackSize: 10
     prefab: {fileID: 0}
