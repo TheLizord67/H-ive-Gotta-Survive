@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Resources
   resource:
     name: Mushroom
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 41886281f8047f246b855d2d4c0a7881, type: 3}
     description: Who knows what it will do?
     maxStackSize: 20
     prefab: {fileID: 0}

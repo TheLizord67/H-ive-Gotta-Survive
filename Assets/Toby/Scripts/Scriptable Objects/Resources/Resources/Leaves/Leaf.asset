@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Resources
   resource:
     name: Leaf
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 6811cca0d27987742a310364514e4cbf, type: 3}
     description: YOU NEED TO LEAF!!!
     maxStackSize: 20
     prefab: {fileID: 0}

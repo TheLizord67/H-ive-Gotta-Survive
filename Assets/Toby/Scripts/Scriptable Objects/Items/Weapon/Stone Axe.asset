@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Item
   item:
     name: Stone Axe
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 22bc75faf596f6e4aa15992314e630e9, type: 3}
     description: Use it to wack guys
     maxStackSize: 1
     prefab: {fileID: 0}

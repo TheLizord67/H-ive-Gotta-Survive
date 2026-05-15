@@ -19,6 +19,8 @@ public class ItemHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     [SerializeField] TextMeshProUGUI stackText;
 
     [SerializeField] public Transform parentAfterDrag;
+
+    [SerializeField] private bool hovered;
     public void OnBeginDrag(PointerEventData eventData)
     {
         parentAfterDrag = transform.parent;
@@ -30,6 +32,7 @@ public class ItemHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
     public void OnDrag(PointerEventData eventData)
     {
         thisObject.transform.position = Input.mousePosition;
+        Seperate();
     }
 
     public void OnEndDrag(PointerEventData eventData)
@@ -38,24 +41,55 @@ public class ItemHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
         thisObject.raycastTarget = true;
     }
 
+    public void Seperate()
+    {
+        if (Input.GetMouseButtonDown(1) == true)
+        {
+            if (stack > 0)
+            {
+                GameObject seperated = Instantiate(this.gameObject);
+            }
+        }
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         if (isItem == true)
         {
-            thisObject.sprite = itemData.item.icon;
+            if (itemData != null)
+            {
+                thisObject.sprite = itemData.item.icon;
+            }
         }
         else
         {
-            thisObject.sprite = resourceData.resource.icon;
+            if (resourceData != null)
+            {
+                thisObject.sprite = resourceData.resource.icon;
+            }
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isItem == true)
+        {
+            if (itemData != null)
+            {
+                thisObject.sprite = itemData.item.icon;
+            }
+        }
+        else
+        {
+            if (resourceData != null)
+            {
+                thisObject.sprite = resourceData.resource.icon;
+            }
+        }
         stackText.text = stack.ToString();
-        if (stack == 0)
+        if (stack == 1)
         {
             stackText.text = "";
         }

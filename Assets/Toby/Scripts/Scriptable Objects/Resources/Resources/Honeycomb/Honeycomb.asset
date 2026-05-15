@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Resources
   resource:
     name: Honeycomb
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: f0b8452f2e343e747a0ed353cd86cdf5, type: 3}
     description: Honeyyyyyy where are my commmbs???
     maxStackSize: 7
     prefab: {fileID: 0}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Resources
   resource:
     name: Flower
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 4dccb8c475b99c1448a6d0d3d0c59851, type: 3}
     description: Thank you for taking part in pollination. You have saved our world.
     maxStackSize: 20
     prefab: {fileID: 0}

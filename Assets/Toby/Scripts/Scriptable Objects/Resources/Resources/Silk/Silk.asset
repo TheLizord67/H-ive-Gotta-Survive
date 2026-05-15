@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Resources
   resource:
     name: Silk
-    icon: {fileID: 0}
+    icon: {fileID: 21300000, guid: 372c613649823a446b0ff6b6fffdeaf8, type: 3}
     description: 'Whole civilizations have killed each other over spider residue. '
     maxStackSize: 1
     prefab: {fileID: 0}
