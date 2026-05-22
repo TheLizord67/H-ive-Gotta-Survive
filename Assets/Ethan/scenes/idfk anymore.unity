@@ -509,6 +509,7 @@ GameObject:
   - component: {fileID: 1843854784}
   - component: {fileID: 1843854783}
   - component: {fileID: 1843854782}
+  - component: {fileID: 1843854788}
   - component: {fileID: 1843854787}
   m_Layer: 0
   m_Name: Player
@@ -534,7 +535,7 @@ MonoBehaviour:
   rotationRate: 2
   vertRotateRate: 2
   gravMult: 0
-  jumpForce: 5
+  jumpForce: 50
   controllerSensMult: 1.5
 --- !u!136 &1843854783
 CapsuleCollider:
@@ -642,7 +643,7 @@ Rigidbody:
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -659,6 +660,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 80
   m_CollisionDetection: 0
+--- !u!114 &1843854788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843854781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00989a9c674da6f41b19a57c8ca3dfed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::speedometer
+  speed: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

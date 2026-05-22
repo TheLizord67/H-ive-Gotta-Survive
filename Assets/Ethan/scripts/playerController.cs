@@ -4,7 +4,7 @@ using System;
 public class playerController : MonoBehaviour
 {
     public enum InputMode { Keyboard, Controller }
-    private InputMode currentInputMode;
+    [SerializeField] private InputMode currentInputMode;
     private InputMode lastInputMode;
     public static Action<InputMode> OnInputModeChanged;
 
@@ -15,6 +15,8 @@ public class playerController : MonoBehaviour
     [SerializeField] private float gravMult;
     [SerializeField] private float jumpForce;
     [SerializeField] private float controllerSensMult = 1.5f;
+    private float speedSpeed;
+    private bool controllerIsSprinting = false;
     private float curRotationRate; //horizontal sens
     private float curVertRotateRate; //vert sens
     private Transform playerCamera;
@@ -24,6 +26,7 @@ public class playerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        speedSpeed = gameObject.GetComponent<speedometer>().speed;
         curVertRotateRate = vertRotateRate;
         curRotationRate = rotationRate;
         currentInputMode = InputMode.Keyboard;
@@ -53,27 +56,80 @@ public class playerController : MonoBehaviour
             curRotationRate = rotationRate;
             curVertRotateRate = vertRotateRate;
         }
-
-        Debug.Log(currentInputMode);
         //gravity
         rb.AddForce(Vector3.down * gravMult);
         //player movement
         Vector3 playerVelocity = gameObject.transform.rotation * new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")) * currentPlayerSpeed;
         rb.linearVelocity = playerVelocity;
-
-        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton8))
+        playerVelocity = playerVelocity.normalized;
+        //sprint
+        //controller sprint doesnt work, figure out later
+        if (currentInputMode == InputMode.Keyboard && Input.GetKeyDown(KeyCode.LeftShift))
         {
             currentPlayerSpeed = currentPlayerSpeed * sprintMod;
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.JoystickButton8))
+        else if ((currentInputMode == InputMode.Keyboard && Input.GetKeyUp(KeyCode.LeftShift)) || Input.GetKeyDown(KeyCode.JoystickButton8))
         {
             currentPlayerSpeed = basePlayerSpeed;
+        }
+        if (Input.GetKeyDown(KeyCode.JoystickButton8) && currentInputMode == InputMode.Controller)
+        {
+            if (!controllerIsSprinting)
+            {
+                currentPlayerSpeed = currentPlayerSpeed * sprintMod;
+                controllerIsSprinting = true;
+            }
+            if (controllerIsSprinting || speedSpeed == 0)
+            {
+                currentPlayerSpeed = basePlayerSpeed;
+                controllerIsSprinting = false;
+            }
         }
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0))
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            Debug.Log("Jump");
         }
-
+        if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.Q))
+        {
+            Debug.Log("Drop");
+        }
+        if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Interact");
+        }
+        if (Input.GetKeyDown(KeyCode.JoystickButton4) || Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            Debug.Log("Left Utility");
+        }
+        if (Input.GetKeyDown(KeyCode.JoystickButton5) || Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            Debug.Log("Right Utility");
+        }
+        if (Input.GetKeyDown(KeyCode.JoystickButton6) || Input.GetKeyDown(KeyCode.Tab))
+        {
+            Debug.Log("Inventory");
+        }
+        if (Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Pause");
+        }
+        if (Input.GetAxisRaw("DPadHori") < 0 || Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("Left/1 Inventory");
+        }
+        if (Input.GetAxisRaw("DPadVert") > 0 || Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log("Up/2 Inventory");
+        }
+        if (Input.GetAxisRaw("DPadHori") > 0 || Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Debug.Log("Right/3 Inventory");
+        }
+        if (Input.GetAxisRaw("DPadVert") < 0 || Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            Debug.Log("Down/4 Inventory");
+        }
         //camera
         gameObject.transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * curRotationRate);//horizontal
         vertConstraints = Mathf.Clamp(Input.GetAxis("Mouse Y") * -curVertRotateRate + vertConstraints, -60f, 60f);
