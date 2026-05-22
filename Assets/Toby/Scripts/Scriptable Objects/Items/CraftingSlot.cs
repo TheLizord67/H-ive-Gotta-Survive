@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 public class CraftingSlot : MonoBehaviour, IDropHandler
 {
+    [SerializeField] private InventoryManager inventory;
     public void OnDrop(PointerEventData eventData)
     {
         if (transform.childCount == 0)
@@ -30,7 +31,23 @@ public class CraftingSlot : MonoBehaviour, IDropHandler
                         }
                         else
                         {
-                            childItem.stack += 1;
+                            int difference = 0;
+                            childItem.stack += itemHandled.stack;
+                            if (childItem.stack > childItem.itemData.item.maxStackSize)
+                            {
+                                difference = childItem.stack - childItem.resourceData.resource.maxStackSize;
+                                Debug.Log(difference);
+                                childItem.stack = childItem.itemData.item.maxStackSize;
+                                foreach (var slot in inventory.inventorySlots)
+                                {
+                                    if (slot.transform.childCount == 0)
+                                    {
+                                        GameObject childs = Instantiate(childItem.gameObject, slot.transform);
+                                        childs.GetComponent<ItemHandler>().stack = difference;
+                                        break;
+                                    }
+                                }
+                            }
                             Destroy(itemHandled.gameObject);
                         }
                     }
@@ -49,7 +66,23 @@ public class CraftingSlot : MonoBehaviour, IDropHandler
                         }
                         else
                         {
-                            childItem.stack += 1;
+                            int difference = 0;
+                            childItem.stack += itemHandled.stack;
+                            if (childItem.stack > childItem.resourceData.resource.maxStackSize)
+                            {
+                                difference = childItem.stack - childItem.resourceData.resource.maxStackSize;
+                                Debug.Log(difference);
+                                childItem.stack = childItem.resourceData.resource.maxStackSize;
+                                foreach (var slot in inventory.inventorySlots)
+                                {
+                                    if (slot.transform.childCount == 0)
+                                    {
+                                        GameObject childs = Instantiate(childItem.gameObject, slot.transform);
+                                        childs.GetComponent<ItemHandler>().stack = difference;
+                                        break;
+                                    }
+                                }
+                            }
                             Destroy(itemHandled.gameObject);
                         }
                     }
@@ -69,7 +102,7 @@ public class CraftingSlot : MonoBehaviour, IDropHandler
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        inventory = GameObject.Find("Inventory Manager").GetComponent<InventoryManager>();
     }
 
     // Update is called once per frame

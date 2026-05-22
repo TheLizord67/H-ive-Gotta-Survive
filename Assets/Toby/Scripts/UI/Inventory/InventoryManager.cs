@@ -61,11 +61,12 @@ public class InventoryManager : MonoBehaviour
                     {
                         if (slot.transform.GetChild(0).GetComponent<ItemHandler>().stack == resource.resource.maxStackSize)
                         {
-                            break;
+                            Debug.Log("Move On");
                         }
                         else
                         {
                             slot.transform.GetChild(0).GetComponent<ItemHandler>().stack += 1;
+                            Instantiate(genericResource, slot.transform.GetChild(0).transform);
                             break;
                         }
                     }
@@ -93,6 +94,7 @@ public class InventoryManager : MonoBehaviour
                         else
                         {
                             slot.transform.GetChild(0).GetComponent<ItemHandler>().stack += 1;
+                            Instantiate(genericResource, slot.transform.GetChild(0).transform);
                             break;
                         }
                     }

@@ -73,7 +73,7 @@ public class Crafting : MonoBehaviour
         foreach (var recip in recipieList.recipies)
         {
             bool what = resources.Count() == recip.resources.Count();
-            Debug.Log(what);
+            //Debug.Log(what);
             if (resources.Count() == recip.resources.Count())
             {
                 for (int i = 0; i < resources.Count(); i++)
