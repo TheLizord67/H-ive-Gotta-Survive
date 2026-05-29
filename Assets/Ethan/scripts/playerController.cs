@@ -23,9 +23,17 @@ public class playerController : MonoBehaviour
     private float vertConstraints; //constraints for vert camera looking
     private Rigidbody rb;
     private float sprintMod = 2;
+
+    [Space(10)]
+    [Header("Toby")]
+    [SerializeField] private GameObject inventory;
+    [SerializeField] private GameObject mainCanvas;
+    [SerializeField] private float interactRayLength;
+    [SerializeField] private LayerMask mask;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        mainCanvas = GameObject.FindGameObjectWithTag("Main Canvas");
         speedSpeed = gameObject.GetComponent<speedometer>().speed;
         curVertRotateRate = vertRotateRate;
         curRotationRate = rotationRate;
@@ -34,6 +42,10 @@ public class playerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         playerCamera = Camera.main.transform;
+        inventory = Instantiate(inventory, mainCanvas.transform);
+        RectTransform rectTransform = inventory.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition = Vector2.zero;
+        rectTransform.localScale = Vector3.one;
     }
 
     // Update is called once per frame
@@ -94,9 +106,13 @@ public class playerController : MonoBehaviour
         {
             Debug.Log("Drop");
         }
-        if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E))
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, interactRayLength, mask))
         {
-            Debug.Log("Interact");
+            if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E))
+            {
+                Debug.Log("Interact");
+            }
         }
         if (Input.GetKeyDown(KeyCode.JoystickButton4) || Input.GetKeyDown(KeyCode.Alpha5))
         {
@@ -108,6 +124,18 @@ public class playerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.JoystickButton6) || Input.GetKeyDown(KeyCode.Tab))
         {
+            if (inventory.activeSelf == false)
+            {
+                inventory.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            else
+            {
+                inventory.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
             Debug.Log("Inventory");
         }
         if (Input.GetKeyDown(KeyCode.JoystickButton7) || Input.GetKeyDown(KeyCode.Escape))
@@ -131,9 +159,12 @@ public class playerController : MonoBehaviour
             Debug.Log("Down/4 Inventory");
         }
         //camera
-        gameObject.transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * curRotationRate);//horizontal
-        vertConstraints = Mathf.Clamp(Input.GetAxis("Mouse Y") * -curVertRotateRate + vertConstraints, -60f, 60f);
-        playerCamera.localRotation = Quaternion.Euler(new Vector3(vertConstraints, 0f, 0f)); //probably vert
+        if (Cursor.lockState == CursorLockMode.Locked)
+        {
+            gameObject.transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * curRotationRate);//horizontal
+            vertConstraints = Mathf.Clamp(Input.GetAxis("Mouse Y") * -curVertRotateRate + vertConstraints, -60f, 60f);
+            playerCamera.localRotation = Quaternion.Euler(new Vector3(vertConstraints, 0f, 0f)); //probably vert
+        }
     }
     private InputMode ProcessInputMode()
     {

@@ -138,6 +138,9 @@ MonoBehaviour:
   gravMult: 0
   jumpForce: 50
   controllerSensMult: 1.5
+  rb: {fileID: 5324083932444307473}
+  inventory: {fileID: 2484408884923641189, guid: 09a1f6d62fd90f44eaa095264a745195, type: 3}
+  mainCanvas: {fileID: 0}
 --- !u!114 &5471256566005251820
 MonoBehaviour:
   m_ObjectHideFlags: 0
