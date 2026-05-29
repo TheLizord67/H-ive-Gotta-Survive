@@ -495,6 +495,10 @@ PrefabInstance:
       propertyPath: interactRayLength
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8402192966372256765, guid: d0790b9f067de8643b8dd23717ba59b6, type: 3}
+      propertyPath: m_RendererIndex
+      value: -1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -679,7 +683,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: -3033667219593020291, guid: b059b76c5c7a0b7468894053f3186491, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
