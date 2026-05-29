@@ -1,8 +1,9 @@
 using UnityEngine;
 using System;
 using System.Collections;
+using PurrNet;
 
-public class playerController : MonoBehaviour
+public class playerController : NetworkIdentity
 {
     public enum InputMode { Keyboard, Controller }
     [SerializeField] private InputMode currentInputMode;
@@ -36,6 +37,11 @@ public class playerController : MonoBehaviour
     public void OnDrawGizmos()
     {
         Gizmos.DrawRay(playerCamera.position, playerCamera.forward * interactRayLength);
+    }
+    protected override void OnSpawned()
+    {
+        base.OnSpawned();
+        enabled = isOwner;
     }
     void Start()
     {
