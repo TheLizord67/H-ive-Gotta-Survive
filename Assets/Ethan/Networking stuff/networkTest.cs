@@ -12,6 +12,11 @@ public class networkTest : NetworkIdentity
             SetColor();
         }
     }
+    protected override void OnSpawned()
+    {
+        base.OnSpawned();
+        enabled = isOwner;
+    }
     private void SetColor()
     {
         _renderer.material.color = _color;

@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using PurrNet;
+using Unity.VisualScripting;
 
 public class playerController : NetworkIdentity
 {
@@ -53,7 +54,7 @@ public class playerController : NetworkIdentity
         rb = GetComponent<Rigidbody>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        playerCamera = Camera.main.transform;
+        playerCamera = gameObject.GetComponentInChildren<Camera>().transform;
         inventory = Instantiate(inventory, mainCanvas.transform);
         RectTransform rectTransform = inventory.GetComponent<RectTransform>();
         rectTransform.anchoredPosition = Vector2.zero;
