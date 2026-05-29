@@ -105,7 +105,7 @@ public class PlaneModifier : MonoBehaviour
 
     float leftEdge(float yValue)
     {
-        float xValue = yValue * (-Mathf.Sqrt(3) / 2);
+        float xValue = yValue / (-Mathf.Sqrt(3) / 2);
         return xValue;
     }
     float rightEdge(float yValue, Vector2 size)
