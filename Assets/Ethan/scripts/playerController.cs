@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class playerController : MonoBehaviour
 {
@@ -27,10 +28,15 @@ public class playerController : MonoBehaviour
     [Space(10)]
     [Header("Toby")]
     [SerializeField] private GameObject inventory;
+    [SerializeField] private InventoryManager myManager;
     [SerializeField] private GameObject mainCanvas;
     [SerializeField] private float interactRayLength;
     [SerializeField] private LayerMask mask;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public void OnDrawGizmos()
+    {
+        Gizmos.DrawRay(playerCamera.position, playerCamera.forward * interactRayLength);
+    }
     void Start()
     {
         mainCanvas = GameObject.FindGameObjectWithTag("Main Canvas");
@@ -46,6 +52,7 @@ public class playerController : MonoBehaviour
         RectTransform rectTransform = inventory.GetComponent<RectTransform>();
         rectTransform.anchoredPosition = Vector2.zero;
         rectTransform.localScale = Vector3.one;
+        myManager = inventory.transform.GetChild(2).GetComponent<InventoryManager>();
     }
 
     // Update is called once per frame
@@ -107,11 +114,23 @@ public class playerController : MonoBehaviour
             Debug.Log("Drop");
         }
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, interactRayLength, mask))
+        if (Physics.Raycast(playerCamera.position, playerCamera.TransformDirection(Vector3.forward), out hit, interactRayLength, mask))
         {
             if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log("Interact");
+                if (hit.collider.CompareTag("Resource"))
+                {
+                    ResourceGathering source = hit.collider.GetComponent<ResourceGathering>();
+                    if (source.lifeSpan > 0)
+                    {
+                        StartCoroutine(GetResource(source));
+                    }
+                    source.lifeSpan -= 1;
+                    if (source.lifeSpan <= 0)
+                    {
+                        Destroy(hit.collider.gameObject, source.timeToGet);
+                    }
+                }
             }
         }
         if (Input.GetKeyDown(KeyCode.JoystickButton4) || Input.GetKeyDown(KeyCode.Alpha5))
@@ -173,6 +192,18 @@ public class playerController : MonoBehaviour
             vertConstraints = Mathf.Clamp(Input.GetAxis("Mouse Y") * -curVertRotateRate + vertConstraints, -60f, 60f);
             playerCamera.localRotation = Quaternion.Euler(new Vector3(vertConstraints, 0f, 0f)); //probably vert
         }
+    }
+    public IEnumerator GetResource(ResourceGathering resourceGathered)
+    {
+        yield return new WaitForSeconds(resourceGathered.timeToGet);
+        foreach (var resource in resourceGathered.resource)
+        {
+            myManager.AddToInventoryResource(resource);
+        }
+    }
+    public void OnDestroy()
+    {
+        inventory.SetActive(true);
     }
     private InputMode ProcessInputMode()
     {

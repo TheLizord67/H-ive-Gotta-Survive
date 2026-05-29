@@ -49,6 +49,35 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
+    public void AddToInventoryResource(_Resources resource)
+    {
+        foreach (var slot in inventorySlots)
+        {
+            if (slot.transform.childCount > 0)
+            {
+                if (slot.transform.GetChild(0).GetComponent<ItemHandler>().resourceData == resource)
+                {
+                    if (slot.transform.GetChild(0).GetComponent<ItemHandler>().stack == resource.resource.maxStackSize)
+                    {
+                        Debug.Log("Move On");
+                    }
+                    else
+                    {
+                        slot.transform.GetChild(0).GetComponent<ItemHandler>().stack += 1;
+                        Instantiate(genericResource, slot.transform.GetChild(0).transform);
+                        break;
+                    }
+                }
+            }
+            if (slot.transform.childCount == 0)
+            {
+                GameObject item = Instantiate(genericResource, slot.transform);
+                item.GetComponent<ItemHandler>().resourceData = resource;
+                break;
+            }
+        }
+        inventoryData.heldResources.Add(resource);
+    }
     public void SetInventory()
     {
         foreach (var resource in inventoryData.heldResources)
@@ -128,6 +157,11 @@ public class InventoryManager : MonoBehaviour
 
     void Update()
     {
+        UpdateInventoryData();
+    }
+
+    public void UpdateInventoryData()
+    {
         inventoryData.heldResources.Clear();
         inventoryData.heldItems.Clear();
         foreach (var slot in inventorySlots)
@@ -159,5 +193,10 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void OnDestroy()
+    {
+        UpdateInventoryData();
     }
 }
