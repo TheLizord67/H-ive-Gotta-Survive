@@ -158,6 +158,14 @@ public class playerController : MonoBehaviour
         {
             Debug.Log("Down/4 Inventory");
         }
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Attack");
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log("RightClick/Left Trigger");
+        }
         //camera
         if (Cursor.lockState == CursorLockMode.Locked)
         {
