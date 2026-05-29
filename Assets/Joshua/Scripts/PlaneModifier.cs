@@ -10,9 +10,14 @@ public class PlaneModifier : MonoBehaviour
 
     [SerializeField] Vector2 planeSize = new Vector2(1, 1);
     [SerializeField] int planeResolution = 1;
+    [SerializeField] float heightSeverity = 1;
+
+
 
     List<Vector3> vertices;
     List<int> triangles;
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,7 +28,7 @@ public class PlaneModifier : MonoBehaviour
         planeResolution = Mathf.Clamp(planeResolution, 1, 1000);
 
         GeneratePlane(planeSize, planeResolution);
-        initialRandomPlaneTest();
+        initialRandomPlaneTest(planeResolution, heightSeverity);
         AssignMesh();
     }
 
@@ -49,18 +54,7 @@ public class PlaneModifier : MonoBehaviour
         {
             for (int x = 0; x < resolution + 1; x++)
             {
-                if (x == 0 || x == resolution)
-                {
-                    vertices.Add(new Vector3(leftEdge(y) + x * xPerStep, 0, y * yPerStep));
-                }
-                else if (y == 0 || y == resolution)
-                {
-                    vertices.Add(new Vector3(leftEdge(y) + x * xPerStep + Random.Range(-xPerStep / 2, xPerStep / 2), 0, y * yPerStep));
-                }
-                else
-                {
-                    vertices.Add(new Vector3(leftEdge(y) + x * xPerStep + Random.Range(-xPerStep / 2, xPerStep / 2), 0, y * yPerStep + Random.Range(-yPerStep / 2, yPerStep / 2)));
-                }
+                vertices.Add(new Vector3(leftEdge(y * yPerStep) + x * xPerStep, 0, y * yPerStep));
             }
         }
 
@@ -93,19 +87,23 @@ public class PlaneModifier : MonoBehaviour
         myMesh.triangles = triangles.ToArray();
     }
 
-    void initialRandomPlaneTest()
+    void initialRandomPlaneTest(int resolution, float height)
     {
         for (int i = 0; i < vertices.Count; i++)
         {
             Vector3 vertex = vertices[i];
-            vertex.y = Random.Range(-10f, 10f);
+            if (i < resolution || i > resolution * (resolution + 1) || i % (resolution + 1) == 0 || i % (resolution + 1) == resolution)
+            {
+                vertex.y = 0;
+            }
+            else vertex.y = Random.Range(-height, height);
             vertices[i] = vertex;
         }
     }
 
     float leftEdge(float yValue)
     {
-        float xValue = yValue / (-Mathf.Sqrt(3) / 2);
+        float xValue = yValue / (Mathf.Sqrt(3));
         return xValue;
     }
     float rightEdge(float yValue, Vector2 size)
