@@ -236,27 +236,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StructureScript
   snapPoints:
-  - localPosition: {x: 1, y: 0, z: 0}
+  - localPosition: {x: 2, y: 0, z: 0}
     snapTypeTag: 0
     snapFromTypeTags: 
-    collisionSize: 0.1
-  - localPosition: {x: -1, y: 0, z: 0}
+    occupied: 0
+  - localPosition: {x: -2, y: 0, z: 0}
     snapTypeTag: 0
     snapFromTypeTags: 
-    collisionSize: 0.1
-  - localPosition: {x: 0.5, y: 0, z: 0.8660254}
+    occupied: 0
+  - localPosition: {x: 1, y: 0, z: 1.7320508}
     snapTypeTag: 0
     snapFromTypeTags: 
-    collisionSize: 0.1
-  - localPosition: {x: 0.5, y: 0, z: -0.8660254}
+    occupied: 0
+  - localPosition: {x: 1, y: 0, z: -1.7320508}
     snapTypeTag: 0
     snapFromTypeTags: 
-    collisionSize: 0.1
-  - localPosition: {x: -0.5, y: 0, z: 0.8660254}
+    occupied: 0
+  - localPosition: {x: -1, y: 0, z: 1.7320508}
     snapTypeTag: 0
     snapFromTypeTags: 
-    collisionSize: 0.1
-  - localPosition: {x: -0.5, y: 0, z: -0.8660254}
+    occupied: 0
+  - localPosition: {x: -1, y: 0, z: -1.7320508}
     snapTypeTag: 0
     snapFromTypeTags: 
-    collisionSize: 0.1
+    occupied: 0

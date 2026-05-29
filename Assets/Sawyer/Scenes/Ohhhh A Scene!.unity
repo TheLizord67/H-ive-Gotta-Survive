@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 382958130}
   - component: {fileID: 382958129}
   - component: {fileID: 382958133}
+  - component: {fileID: 382958135}
   - component: {fileID: 382958134}
   m_Layer: 0
   m_Name: Capsule
@@ -248,11 +249,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bee3e369103bbe4c800b0ca74aeca7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoyTestBeanPlayerController
-  speed: 5
-  camSensitivity: 0.1
+  speed: 0
+  camSensitivity: 0
   cameraHH: {fileID: 1010396081}
-  jumpVelocity: 4
-  jumpCooldown: 0.5
+  jumpVelocity: 0
+  jumpCooldown: 100
   foundationPrefab: {fileID: 5223960521409133839, guid: 34c23d6458367de488323b8f1a127d6e, type: 3}
   previewMaterial: {fileID: 2100000, guid: ce828fc452b3fc94cb0d34a3c28fbc4c, type: 2}
 --- !u!54 &382958134
@@ -282,6 +283,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &382958135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382958128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b01441c988440ef4e831018d127efca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::playerController
+  basePlayerSpeed: 50
+  currentPlayerSpeed: 5
+  rotationRate: 2
+  vertRotateRate: 2
+  gravMult: 1
+  jumpForce: 25
+  controllerSensMult: 1.5
 --- !u!1 &1010396081
 GameObject:
   m_ObjectHideFlags: 0

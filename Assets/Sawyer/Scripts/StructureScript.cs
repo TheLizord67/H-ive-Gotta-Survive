@@ -10,8 +10,9 @@ public class StructureScript : MonoBehaviour
         public Vector3 localPosition;
         public int snapTypeTag;
         public int[] snapFromTypeTags;
+        public bool occupied;
     }
-    [SerializeField] SnapPoint[] snapPoints;
+    public SnapPoint[] snapPoints;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
 
