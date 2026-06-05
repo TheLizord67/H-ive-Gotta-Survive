@@ -157,6 +157,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 72
+  structureScript: {fileID: 0}
+  structureToPlace: {fileID: 5223960521409133839, guid: 34c23d6458367de488323b8f1a127d6e, type: 3}
 --- !u!114 &5471256566005251820
 MonoBehaviour:
   m_ObjectHideFlags: 0

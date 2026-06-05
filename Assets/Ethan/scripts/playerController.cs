@@ -36,6 +36,11 @@ public class playerController : NetworkIdentity
     [SerializeField] private GameObject mainCanvas;
     [SerializeField] private float interactRayLength;
     [SerializeField] private LayerMask mask;
+
+    [Space(10)]
+    [Header("Soy")]
+    [SerializeField] private SoyTestBeanPlayerController structureScript;
+    [SerializeField] private GameObject structureToPlace;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void OnDrawGizmos()
     {
@@ -63,6 +68,7 @@ public class playerController : NetworkIdentity
         rectTransform.anchoredPosition = Vector2.zero;
         rectTransform.localScale = Vector3.one;
         myManager = inventory.transform.GetChild(2).GetComponent<InventoryManager>();
+        structureScript = GetComponent<SoyTestBeanPlayerController>();
     }
 
     // Update is called once per frame
@@ -186,6 +192,7 @@ public class playerController : NetworkIdentity
         if (Input.GetAxisRaw("DPadVert") < 0 || Input.GetKeyDown(KeyCode.Alpha4))
         {
             Debug.Log("Down/4 Inventory");
+            structureScript.AttemptPlace(structureToPlace);
         }
         if (Input.GetMouseButtonDown(0))
         {
