@@ -18,6 +18,7 @@ public class playerController : NetworkIdentity
     [SerializeField] private float gravMult;
     [SerializeField] private float jumpForce;
     [SerializeField] private float controllerSensMult = 1.5f;
+    private bool isGrounded; //totally not Grounded
     private float speedSpeed;
     private bool controllerIsSprinting = false;
     private float curRotationRate; //horizontal sens
@@ -86,8 +87,8 @@ public class playerController : NetworkIdentity
         rb.AddForce(Vector3.down * gravMult);
         //player movement
         Vector3 playerVelocity = gameObject.transform.rotation * new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")) * currentPlayerSpeed;
+        //playerVelocity = playerVelocity.normalized;
         rb.linearVelocity = playerVelocity;
-        playerVelocity = playerVelocity.normalized;
         //sprint
         //controller sprint doesnt work, figure out later
         if (currentInputMode == InputMode.Keyboard && Input.GetKeyDown(KeyCode.LeftShift))
@@ -111,7 +112,7 @@ public class playerController : NetworkIdentity
                 controllerIsSprinting = false;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0))
+        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0)) && isGrounded)
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             Debug.Log("Jump");
@@ -244,5 +245,19 @@ public class playerController : NetworkIdentity
             else return InputMode.Keyboard;
         }
         return currentInputMode;
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("ground"))
+        {
+            isGrounded = true;
+        }
+    }
+    private void OnCollisionExit(Collision other)
+    {
+        if (other.gameObject.CompareTag("ground"))
+        {
+            isGrounded = false;
+        }
     }
 }

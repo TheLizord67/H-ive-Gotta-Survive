@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Main Canvas
   - Resource
+  - ground
   layers:
   - Default
   - TransparentFX
