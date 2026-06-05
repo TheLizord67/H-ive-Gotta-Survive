@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Xml.Schema;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlaneModifier : MonoBehaviour
@@ -85,6 +86,9 @@ public class PlaneModifier : MonoBehaviour
         myMesh.Clear();
         myMesh.vertices = vertices.ToArray();
         myMesh.triangles = triangles.ToArray();
+        DestroyImmediate(this.GetComponent<MeshCollider>());
+        var collider = this.AddComponent<MeshCollider>();
+        collider.sharedMesh = myMesh;
     }
 
     void initialRandomPlaneTest(int resolution, float height)
