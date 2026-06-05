@@ -27,6 +27,7 @@ public class playerController : NetworkIdentity
     private float vertConstraints; //constraints for vert camera looking
     private Rigidbody rb;
     private float sprintMod = 2;
+    private Vector2 DriftGuard;
 
     [Space(10)]
     [Header("Toby")]
@@ -47,6 +48,7 @@ public class playerController : NetworkIdentity
     }
     void Start()
     {
+        DriftGuard = new Vector2(0f, 0f);
         mainCanvas = GameObject.FindGameObjectWithTag("Main Canvas");
         speedSpeed = gameObject.GetComponent<speedometer>().speed;
         curVertRotateRate = vertRotateRate;
@@ -114,7 +116,7 @@ public class playerController : NetworkIdentity
         }
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0)) && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
             Debug.Log("Jump");
         }
         if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.Q))
@@ -196,9 +198,12 @@ public class playerController : NetworkIdentity
         //camera
         if (Cursor.lockState == CursorLockMode.Locked)
         {
-            gameObject.transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * curRotationRate);//horizontal
-            vertConstraints = Mathf.Clamp(Input.GetAxis("Mouse Y") * -curVertRotateRate + vertConstraints, -60f, 60f);
-            playerCamera.localRotation = Quaternion.Euler(new Vector3(vertConstraints, 0f, 0f)); //probably vert
+            //if (new Vector2(Input.GetAxis("MouseX"), Input.GetAxis("MouseY")) => DriftGuard)
+            //{
+                gameObject.transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * curRotationRate);//horizontal
+                vertConstraints = Mathf.Clamp(Input.GetAxis("Mouse Y") * -curVertRotateRate + vertConstraints, -60f, 60f);
+                playerCamera.localRotation = Quaternion.Euler(new Vector3(vertConstraints, 0f, 0f)); //probably vert
+            //}
         }
     }
     public IEnumerator GetResource(ResourceGathering resourceGathered)
