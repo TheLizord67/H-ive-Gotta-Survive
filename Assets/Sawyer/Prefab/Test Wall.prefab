@@ -87,7 +87,7 @@ PrefabInstance:
       addedObject: {fileID: 2162482151010707643}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: bcec4c547f8376c4ea88f99275c7de0c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6524216554886844502}
+      addedObject: {fileID: 2241167788376132455}
   m_SourcePrefab: {fileID: 100100000, guid: bcec4c547f8376c4ea88f99275c7de0c, type: 3}
 --- !u!1 &5223960521409133839 stripped
 GameObject:
@@ -177,7 +177,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5223960521409133839}
-  m_Mesh: {fileID: -2432090755550338912, guid: b059b76c5c7a0b7468894053f3186491, type: 3}
+  m_Mesh: {fileID: -2432090755550338912, guid: 836f582a8875f3c4f90e5e2742a21455, type: 3}
 --- !u!114 &2162482151010707643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,31 +191,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StructureScript
   snapPoints:
-  - localPosition: {x: 2, y: 0, z: 0}
-    snapTypeTag: 1
-    snapFromTypeTags: 
+  - localPosition: {x: 0, y: -0.7, z: 0}
+    snapTypeTag: 6
+    snapFromTypeTags: 00000000010000000200000003000000040000000500000007000000
     occupied: 0
-  - localPosition: {x: -1, y: 0, z: 0}
-    snapTypeTag: 1
-    snapFromTypeTags: 
+  - localPosition: {x: 0, y: 0.7, z: 0}
+    snapTypeTag: 7
+    snapFromTypeTags: 0600000006000000
     occupied: 0
-  - localPosition: {x: 0.5, y: 0, z: 0.8660255}
-    snapTypeTag: 1
-    snapFromTypeTags: 
+  - localPosition: {x: 0, y: 0, z: -0.57735}
+    snapTypeTag: 8
+    snapFromTypeTags: 09000000
     occupied: 0
-  - localPosition: {x: 0.5, y: 0, z: -0.8660255}
-    snapTypeTag: 1
-    snapFromTypeTags: 
+  - localPosition: {x: 0, y: 0, z: 0.57735}
+    snapTypeTag: 9
+    snapFromTypeTags: 08000000
     occupied: 0
-  - localPosition: {x: -0.5, y: 0, z: 0.8660255}
-    snapTypeTag: 1
-    snapFromTypeTags: 
-    occupied: 0
-  - localPosition: {x: -0.5, y: 0, z: -0.8660255}
-    snapTypeTag: 1
-    snapFromTypeTags: 
-    occupied: 0
---- !u!65 &6524216554886844502
+--- !u!65 &2241167788376132455
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,5 +226,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.25282, y: 1.505623, z: 1.292002}
-  m_Center: {x: -0.009056997, y: 0.7370605, z: 0.013727009}
+  m_Size: {x: 0.25282001, y: 1.505622, z: 1.292002}
+  m_Center: {x: 0.0262, y: -0.032200992, z: 0.0062980056}

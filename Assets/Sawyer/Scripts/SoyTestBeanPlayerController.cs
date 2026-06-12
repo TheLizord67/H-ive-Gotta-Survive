@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Collections;
+using System.Linq;
 
 public class SoyTestBeanPlayerController : MonoBehaviour
 {
@@ -57,24 +59,34 @@ public class SoyTestBeanPlayerController : MonoBehaviour
                 if (Physics.Raycast(transform.position, cam.transform.TransformDirection(Vector3.forward), out hit, 15, LayerMask.GetMask("Structure")))
                 {
                     StructureScript.SnapPoint[] snapsToCheck = hit.collider.gameObject.GetComponent<StructureScript>().snapPoints;
+                    StructureScript.SnapPoint[] mySnaps = currentStructurePrefab.GetComponent<StructureScript>().snapPoints;
 
                     int closestPoint = 0;
                     float closestPointVal = 1000;
+                    int mySnapPoint = 0;
                     for (int i = 0; i < snapsToCheck.Length; i++)
                     {
                         if (!snapsToCheck[i].occupied)
                         {
                             if (closestPointVal > Vector3.Distance(hit.point, hit.collider.gameObject.transform.rotation * snapsToCheck[i].localPosition + hit.collider.gameObject.transform.position))
                             {
-                                closestPoint = i;
-                                closestPointVal = Vector3.Distance(hit.point, hit.collider.gameObject.transform.rotation * snapsToCheck[i].localPosition + hit.collider.gameObject.transform.position);
+                                for (int ii = 0; ii < mySnaps.Length; ii++)
+                                {
+                                    if (mySnaps[ii].snapFromTypeTags.Contains(snapsToCheck[i].snapTypeTag))
+                                    {
+                                        closestPoint = i;
+                                        closestPointVal = Vector3.Distance(hit.point, hit.collider.gameObject.transform.rotation * snapsToCheck[i].localPosition + hit.collider.gameObject.transform.position);
+                                        mySnapPoint = ii;
+                                    }
+                                }
+                                
                             }
 
                         }
                     }
                     if (closestPointVal < 1000)
                     {
-                        previewStructure.transform.position = hit.collider.gameObject.transform.rotation * snapsToCheck[closestPoint].localPosition + hit.collider.gameObject.transform.position;
+                        previewStructure.transform.position = hit.collider.gameObject.transform.rotation * (snapsToCheck[closestPoint].localPosition - mySnaps[mySnapPoint].localPosition) + hit.collider.gameObject.transform.position;
                         previewStructure.transform.rotation = hit.collider.gameObject.transform.rotation;
                         Debug.DrawLine(transform.position, previewStructure.transform.position, Color.violetRed, 0.1f);
                     }
