@@ -11,6 +11,7 @@ public class StructureScript : MonoBehaviour
         public int snapTypeTag;
         public int[] snapFromTypeTags;
         public bool occupied;
+        public int rot;
     }
     public SnapPoint[] snapPoints;
     // Start is called once before the first execution of Update after the MonoBehaviour is created

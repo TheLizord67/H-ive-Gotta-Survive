@@ -87,7 +87,7 @@ public class SoyTestBeanPlayerController : MonoBehaviour
                     if (closestPointVal < 1000)
                     {
                         previewStructure.transform.position = hit.collider.gameObject.transform.rotation * (snapsToCheck[closestPoint].localPosition - mySnaps[mySnapPoint].localPosition) + hit.collider.gameObject.transform.position;
-                        previewStructure.transform.rotation = hit.collider.gameObject.transform.rotation;
+                        previewStructure.transform.rotation = Quaternion.Euler(new Vector3(0, snapsToCheck[closestPoint].rot, 0)) * hit.collider.gameObject.transform.rotation;
                         Debug.DrawLine(transform.position, previewStructure.transform.position, Color.violetRed, 0.1f);
                     }
                     else
