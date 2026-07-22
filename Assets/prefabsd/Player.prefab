@@ -274,7 +274,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoyTestBeanPlayerController
   cam: {fileID: 807584893671536525}
-  foundationPrefab: {fileID: 5223960521409133839, guid: 34c23d6458367de488323b8f1a127d6e, type: 3}
   previewMaterial: {fileID: 2100000, guid: ce828fc452b3fc94cb0d34a3c28fbc4c, type: 2}
 --- !u!1 &9082536322677265625
 GameObject:

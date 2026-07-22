@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5324083932444307473}
   - component: {fileID: 5070760378653857849}
   - component: {fileID: -3191683514155110226}
+  - component: {fileID: 7933934307441136005}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -156,6 +157,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 72
+  structureScript: {fileID: 0}
+  structureToPlace: {fileID: 5223960521409133839, guid: 34c23d6458367de488323b8f1a127d6e, type: 3}
 --- !u!114 &5471256566005251820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +261,20 @@ MonoBehaviour:
   _toDeactivate: []
   _toEnable: []
   _toDisable: []
+--- !u!114 &7933934307441136005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2633287840427034068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bee3e369103bbe4c800b0ca74aeca7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoyTestBeanPlayerController
+  cam: {fileID: 807584893671536525}
+  previewMaterial: {fileID: 2100000, guid: ce828fc452b3fc94cb0d34a3c28fbc4c, type: 2}
 --- !u!1 &9082536322677265625
 GameObject:
   m_ObjectHideFlags: 0

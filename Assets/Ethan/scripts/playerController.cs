@@ -40,7 +40,7 @@ public class playerController : NetworkIdentity
     [Space(10)]
     [Header("Soy")]
     [SerializeField] private SoyTestBeanPlayerController structureScript;
-    [SerializeField] private GameObject structureToPlace;
+    public GameObject structureToPlace;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public void OnDrawGizmos()
     {
