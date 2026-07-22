@@ -17,4 +17,10 @@ public static class Statics
         List<T> shuffledList = list.OrderBy(x => randyTheRandom.Next()).ToList();
         return shuffledList;
     }
+
+    public static int RollDice(int amountMin, int amountMax)
+    {
+        int result = Random.Range(amountMin, amountMax);
+        return result;
+    }
 }

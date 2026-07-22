@@ -18,5 +18,17 @@ public partial class EnemyType
         public float attackSpeed;
 
         public GameObject currentTarget;
+
+        public float searchDistance;
+
+        public float hitDistance;
+
+        public float retreatDistance;
+
+        public float followTimeMax;
+
+        public float followTime;
+
+        public float rotateSpeed;
     }
 }
