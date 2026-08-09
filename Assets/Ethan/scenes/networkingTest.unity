@@ -413,6 +413,11 @@ MonoBehaviour:
   _directChildren: []
   _color: {r: 0, g: 0.084820986, b: 1, a: 0}
   _renderer: {fileID: 0}
+--- !u!4 &1217433317 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2465709847746766468, guid: 78fde51a735fab94ebedcfd523693fe5, type: 3}
+  m_PrefabInstance: {fileID: 1217433310}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1405730186
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,7 +726,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 0}
   _playerPrefab: {fileID: 2633287840427034068, guid: d0790b9f067de8643b8dd23717ba59b6, type: 3}
   _ignoreNetworkRules: 0
-  spawnPoints: []
+  spawnPoints:
+  - {fileID: 1217433317}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
