@@ -16,7 +16,7 @@ public class playerController : NetworkIdentity
     [SerializeField] private float rotationRate; //horizontal sens
     [SerializeField] private float vertRotateRate; //vert sens
     [SerializeField] private float gravMult;
-    [SerializeField] private float jumpForce;
+    public float jumpForce;
     [SerializeField] private float controllerSensMult = 1.5f;
     private bool isGrounded; //totally not Grounded
     private float speedSpeed;
@@ -120,7 +120,6 @@ public class playerController : NetworkIdentity
         }
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0)) && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
             Debug.Log("Jump");
         }
         if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.Q))
