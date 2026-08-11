@@ -13,6 +13,8 @@ public class Butterfly : MonoBehaviour
     
     [SerializeField] private List<GameObject> players;
 
+    [SerializeField] private List<float> playersDistances;
+
     [SerializeField] private Path butterflyPath;
 
     [SerializeField] private float nextWaypointDistance = 3f;
@@ -20,6 +22,10 @@ public class Butterfly : MonoBehaviour
     [SerializeField] private int currentWaypoint = 10;
 
     [SerializeField] private bool reachedEndOfPath = false;
+
+    [SerializeField] private Animator butterflyAnimator;
+
+    [SerializeField] private AnimationClip fastClip, telegraphedClip;
 
     [SerializeField] private Rigidbody rb;
 
@@ -29,27 +35,35 @@ public class Butterfly : MonoBehaviour
         
     [SerializeField] private float slerp;
 
-    [SerializeField] private float targetDistance;
+    [SerializeField] private float targetDistance, attackDistance;
 
     [SerializeField] private EnemyType butterfly;
 
-    [SerializeField] private GameObject spawn;
+    [SerializeField] private GameObject spawn, currentTarget;
 
     [SerializeField] private GameObject retreatPoint, node;
 
     [SerializeField] private GameObject attackBox;
 
-    [SerializeField] private float watchTimeMin, watchTimeMax, watchTimeCurrent;
+    [SerializeField] private float watchTimeMin, watchTimeMax, watchTimeCurrent, rotateSpeed, followTime;
 
+    [SerializeField] private bool isAttacking;
+
+    private Coroutine lookCoroutine;
+
+    [SerializeField] private List<LookAt> lookAtList;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         retreatPoint = Instantiate(node, transform.position, Quaternion.identity);
-        //players = GameObject.FindGameObjectsWithTag("Player").ToList();
+        spawn = GameObject.FindGameObjectWithTag("Spawn");
+        players = GameObject.FindGameObjectsWithTag("Player").ToList();
         //players = (List<GameObject>)players.Shuffle();
         //butterfly.enemyType.currentTarget = players[0];
-        butterfly.enemyType.currentTarget = spawn;
+        currentTarget = spawn;
+        rb.AddForce(transform.forward);
         state = States.Roaming;
+        followTime = butterfly.enemyType.followTimeMax;
     }
 
     // 0 - searching for a target : 1 - searching for if it can attack
@@ -64,14 +78,13 @@ public class Butterfly : MonoBehaviour
                 {
                     state = States.Watching;
                     watchTimeCurrent = Random.Range(watchTimeMin, watchTimeMax);
-                    butterfly.enemyType.currentTarget = hit.collider.gameObject;
+                    currentTarget = hit.collider.gameObject;
                     break;
                 }
-                else if (hit.collider.gameObject.CompareTag("Structure"))
+                else if (hit.collider.gameObject.CompareTag("Structure") && currentTarget != null && currentTarget == spawn)
                 {
                     state = States.Chasing;
-                    butterfly.enemyType.currentTarget = hit.collider.gameObject;
-
+                    currentTarget = hit.collider.gameObject;
                 }
                 else
                 {
@@ -81,7 +94,7 @@ public class Butterfly : MonoBehaviour
                     }
                     else
                     {
-                        butterfly.enemyType.currentTarget = spawn;
+                        currentTarget = spawn;
                         state = States.Roaming;
                     }
                 }
@@ -89,16 +102,32 @@ public class Butterfly : MonoBehaviour
         }
         if (searchType == 1)
         {
-            if (targetDistance <= butterfly.enemyType.hitDistance)
+            RaycastHit[] hits = Physics.SphereCastAll(transform.position, butterfly.enemyType.searchDistance, Vector3.up, butterfly.enemyType.searchDistance);
+            foreach (RaycastHit hit in hits)
             {
+                if (hit.collider.gameObject.CompareTag("Player"))
+                {
+                    if (currentTarget != hit.collider.gameObject)
+                    {
+                        currentTarget = hit.collider.gameObject;
+                        break;
+                    }
+                }
+            }
+            if (targetDistance <= butterfly.enemyType.hitDistance && state != States.Attacking)
+            {
+                rb.linearVelocity = Vector3.zero;
+                isAttacking = true;
                 state = States.Attacking;
                 int result = Statics.RollDice(1, 7);
                 if (result <= 4)
                 {
+                    butterflyAnimator.SetInteger("Attack Mode", 0);
                     StartCoroutine(Attack(0));
                 }
                 else
                 {
+                    butterflyAnimator.SetInteger("Attack Mode", 1);
                     StartCoroutine(Attack(1));
                 }
             }
@@ -108,10 +137,9 @@ public class Butterfly : MonoBehaviour
     {
         if (seeker.IsDone())
         {
-            seeker.StartPath(rb.position, butterfly.enemyType.currentTarget.transform.position, OnPathComplete);
+            seeker.StartPath(rb.position, currentTarget.transform.position, OnPathComplete);
         }
     }
-    
     public void OnPathComplete(Path p)
     {
         if (!p.error)
@@ -124,49 +152,62 @@ public class Butterfly : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        FaceTarget(butterfly.enemyType.currentTarget.transform);
-        targetDistance = Vector3.Distance(transform.position, butterfly.enemyType.currentTarget.transform.position);
+        FaceTarget();
+        targetDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
         UpdatePath();
         CapVelocity();
         if (state == States.Roaming)
         {
+            butterflyAnimator.SetBool("IsMoving", true);
+            butterflyAnimator.SetInteger("Attack Mode", 2);
             IsRoaming();
         }
         if (state == States.Watching)
         {
+            butterflyAnimator.SetBool("IsMoving", false);
+            butterflyAnimator.SetInteger("Attack Mode", 2);
             IsWatching();
         }
         if (state == States.Retreating)
         {
+            butterflyAnimator.SetBool("IsMoving", true);
+            butterflyAnimator.SetInteger("Attack Mode", 2);
             IsRetreating();
         }
         if (state == States.Chasing)
         {
+            butterflyAnimator.SetBool("IsMoving", true);
+            butterflyAnimator.SetInteger("Attack Mode", 2);
             IsChasing();
+        }
+        if (state == States.Attacking)
+        {
+            butterflyAnimator.SetBool("IsMoving", false);
+            IsAttacking();
         }
         if (butterfly.enemyType.retreatHealthCurrent <= 0)
         {
-            butterfly.enemyType.currentTarget = retreatPoint;
+            currentTarget = retreatPoint;
             state = States.Retreating;
         }
     }
 
     public void IsChasing()
     {
-        if (butterfly.enemyType.currentTarget == null)
+        if (currentTarget == null)
         {
-            butterfly.enemyType.currentTarget = spawn;
+            currentTarget = spawn;
             state = States.Roaming;
         }
-        if (targetDistance > butterfly.enemyType.searchDistance)
+        if (targetDistance >= butterfly.enemyType.searchDistance)
         {
-            butterfly.enemyType.followTime -= Time.deltaTime;
-            if (butterfly.enemyType.followTime <= 0)
+            followTime -= Time.deltaTime;
+            if (followTime <= 0)
             {
-                butterfly.enemyType.currentTarget = spawn;
+                currentTarget = spawn;
                 state = States.Roaming;
             }
-            if (butterfly.enemyType.followTime > 0)
+            if (followTime > 0)
             {
                 if (butterflyPath == null)
                 {
@@ -188,13 +229,12 @@ public class Butterfly : MonoBehaviour
                 {
                     currentWaypoint++;
                 }
-                FindTarget(0);
-
+                FindTarget(1);
             }
         }
         else
         {
-            butterfly.enemyType.followTime = butterfly.enemyType.followTimeMax;
+            followTime = butterfly.enemyType.followTimeMax;
             FindTarget(1);
             if (butterflyPath == null)
             {
@@ -215,7 +255,7 @@ public class Butterfly : MonoBehaviour
             if (distance < nextWaypointDistance)
             {
                 currentWaypoint++;
-            }
+            } 
         }
     }
 
@@ -224,23 +264,23 @@ public class Butterfly : MonoBehaviour
     {
         if (type == 0)
         {
-            yield return new WaitForSeconds(butterfly.enemyType.attackSpeed);
-            attackBox.SetActive(true);
-            yield return new WaitForSeconds(0.5f);
-            attackBox.SetActive(false);
-            state = States.Chasing;
+            yield return new WaitForSeconds(telegraphedClip.length);
+            butterflyAnimator.SetInteger("Attack Mode", 2);
+            //state = States.Chasing;
+            isAttacking = false;
         }
         else if (type == 1)
         {
-            yield return new WaitForSeconds(butterfly.enemyType.attackSpeed / 2);
-            attackBox.SetActive(true);
-            yield return new WaitForSeconds(0.5f);
-            attackBox.SetActive(false);
-            state = States.Chasing;
+            yield return new WaitForSeconds(fastClip.length);
+            butterflyAnimator.SetInteger("Attack Mode", 2);
+            //state = States.Chasing;
+            isAttacking = false;
         }
+        
     }
     public void IsWatching()
     {
+        rb.linearVelocity = Vector3.zero;
         watchTimeCurrent -= Time.deltaTime;
         if (watchTimeCurrent <= 0)
         {
@@ -252,7 +292,7 @@ public class Butterfly : MonoBehaviour
         butterfly.enemyType.retreatHealthCurrent += 1;
         if (butterfly.enemyType.retreatHealthCurrent < butterfly.enemyType.retreatHealthMax)
         {
-            butterfly.enemyType.followTime = butterfly.enemyType.followTimeMax;
+            followTime = butterfly.enemyType.followTimeMax;
             FindTarget(1);
             if (butterflyPath == null)
             {
@@ -305,13 +345,40 @@ public class Butterfly : MonoBehaviour
             currentWaypoint++;
         }
     }
-    public void FaceTarget(Transform target)
+    public void IsAttacking()
     {
-        Vector3 directionToTarget = target.position - transform.position;
-
-        Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, butterfly.enemyType.rotateSpeed * Time.deltaTime);
+        FindTarget(1);
+        if (!isAttacking)
+        {
+            rb.linearVelocity = Vector3.zero;
+            isAttacking = true;
+            state = States.Attacking;
+            int result = Statics.RollDice(1, 7);
+            if (result <= 4)
+            {
+                butterflyAnimator.SetInteger("Attack Mode", 0);
+                StartCoroutine(Attack(0));
+            }
+            else
+            {
+                butterflyAnimator.SetInteger("Attack Mode", 1);
+                StartCoroutine(Attack(1));
+            }
+        }
+        else
+        {
+            if (targetDistance > butterfly.enemyType.hitDistance)
+            {
+                state = States.Chasing;
+            }
+        }
+    }
+    public void FaceTarget()
+    {
+        foreach (var target in lookAtList)
+        {
+            target.currentTarget = currentTarget;
+        }
     }
     public void CapVelocity()
     {
@@ -348,5 +415,4 @@ public class Butterfly : MonoBehaviour
             }
         }
     }
-
 }

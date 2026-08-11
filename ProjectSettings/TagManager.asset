@@ -9,6 +9,7 @@ TagManager:
   - ground
   - Enemy
   - Structure
+  - Spawn
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Water
   - UI
   - Resource
-  - 
-  - 
+  - Obstacle
+  - Enemy
   - 
   - 
   - 
