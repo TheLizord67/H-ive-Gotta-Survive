@@ -23,14 +23,14 @@ public class SoyTestBeanPlayerController : MonoBehaviour
     {
         if (hasStructureSelected)
         {
-            if (Mouse.current.rightButton.wasPressedThisFrame)
+            if (Mouse.current.rightButton.wasPressedThisFrame || Input.GetAxis("LeftTrigger") != 0)
             {
                 Destroy(previewStructure);
                 isPreviewing = false;
                 hasStructureSelected = false;
             }
 
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (Mouse.current.leftButton.wasPressedThisFrame || Input.GetAxis("RightTrigger") != 0)
             {
                 if (isPreviewing)
                 {

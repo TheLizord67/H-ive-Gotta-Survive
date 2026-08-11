@@ -27,7 +27,6 @@ public class playerController : NetworkIdentity
     private float vertConstraints; //constraints for vert camera looking
     private Rigidbody rb;
     private float sprintMod = 2;
-    private Vector2 DriftGuard;
 
     [Space(10)]
     [Header("Toby")]
@@ -53,7 +52,6 @@ public class playerController : NetworkIdentity
     }
     void Start()
     {
-        DriftGuard = new Vector2(0f, 0f);
         mainCanvas = GameObject.FindGameObjectWithTag("Main Canvas");
         speedSpeed = gameObject.GetComponent<speedometer>().speed;
         curVertRotateRate = vertRotateRate;
@@ -134,6 +132,7 @@ public class playerController : NetworkIdentity
         {
             if (Input.GetKeyDown(KeyCode.JoystickButton2) || Input.GetKeyDown(KeyCode.E))
             {
+                Debug.Log("Interact");
                 if (hit.collider.CompareTag("Resource"))
                 {
                     ResourceGathering source = hit.collider.GetComponent<ResourceGathering>();
@@ -194,23 +193,29 @@ public class playerController : NetworkIdentity
             Debug.Log("Down/4 Inventory");
             structureScript.AttemptPlace(structureToPlace);
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) || Input.GetAxis("RightTrigger") != 0)
         {
             Debug.Log("Attack");
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) || Input.GetAxis("LeftTrigger") != 0)
         {
             Debug.Log("RightClick/Left Trigger");
         }
         //camera
         if (Cursor.lockState == CursorLockMode.Locked)
         {
-            //if (new Vector2(Input.GetAxis("MouseX"), Input.GetAxis("MouseY")) => DriftGuard)
-            //{
+            if (currentInputMode == InputMode.Keyboard)
+            {
                 gameObject.transform.Rotate(Vector3.up, Input.GetAxis("Mouse X") * curRotationRate);//horizontal
                 vertConstraints = Mathf.Clamp(Input.GetAxis("Mouse Y") * -curVertRotateRate + vertConstraints, -60f, 60f);
-                playerCamera.localRotation = Quaternion.Euler(new Vector3(vertConstraints, 0f, 0f)); //probably vert
-            //}
+                playerCamera.localRotation = Quaternion.Euler(new Vector3(vertConstraints, 0f, 0f)); //sets camera rotation
+            }
+            else
+            {
+                gameObject.transform.Rotate(Vector3.up, (Input.GetAxis("Cont Mouse X") * controllerSensMult) * curRotationRate);//horizontal
+                vertConstraints = Mathf.Clamp((Input.GetAxis("Cont Mouse Y") * controllerSensMult) * -curVertRotateRate + vertConstraints, -60f, 60f);
+                playerCamera.localRotation = Quaternion.Euler(new Vector3(vertConstraints, 0f, 0f)); //sets camera rotation
+            }
         }
     }
     public IEnumerator GetResource(ResourceGathering resourceGathered)
@@ -254,6 +259,8 @@ public class playerController : NetworkIdentity
             else if (Input.GetKeyDown(KeyCode.JoystickButton17)) return InputMode.Controller;
             else if (Input.GetKeyDown(KeyCode.JoystickButton18)) return InputMode.Controller;
             else if (Input.GetKeyDown(KeyCode.JoystickButton19)) return InputMode.Controller;
+            else if (Input.GetAxis("LeftTrigger") != 0) return InputMode.Controller;
+            else if (Input.GetAxis("RightTrigger") != 0) return InputMode.Controller;
             else return InputMode.Keyboard;
         }
         return currentInputMode;
