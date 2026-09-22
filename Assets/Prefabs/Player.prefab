@@ -175,7 +175,7 @@ MonoBehaviour:
   rotationRate: 2
   vertRotateRate: 2
   gravMult: 0
-  jumpForce: 50
+  jumpForce: 2
   controllerSensMult: 1.5
   inventory: {fileID: 2484408884923641189, guid: 09a1f6d62fd90f44eaa095264a745195, type: 3}
   myManager: {fileID: 0}

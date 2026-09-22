@@ -92,7 +92,7 @@ public class playerController : NetworkIdentity
         //gravity
         rb.AddForce(Vector3.down * gravMult);
         //player movement
-        Vector3 playerVelocity = gameObject.transform.rotation * new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical")) * currentPlayerSpeed;
+        Vector3 playerVelocity = gameObject.transform.rotation * new Vector3(Input.GetAxis("Horizontal"), rb.linearVelocity.y, Input.GetAxis("Vertical")) * currentPlayerSpeed;
         //playerVelocity = playerVelocity.normalized;
         rb.linearVelocity = playerVelocity;
         //sprint
@@ -121,6 +121,7 @@ public class playerController : NetworkIdentity
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton0)) && isGrounded)
         {
             Debug.Log("Jump");
+            //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         }
         if (Input.GetKeyDown(KeyCode.JoystickButton1) || Input.GetKeyDown(KeyCode.Q))
         {
